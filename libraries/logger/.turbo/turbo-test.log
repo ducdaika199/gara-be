@@ -1,0 +1,23 @@
+
+> @practica/logger@1.0.0 test
+> jest --forceExit
+
+PASS test/index.test.ts
+  logger
+    ✓ When no explicit configuration is set, info logs are written (10 ms)
+    ✓ When log level is DEBUG and logger emits INFO statement, then stdout contains the entry (1 ms)
+    ✓ When logger is configured and then re-configured, then the new config applies
+    ✓ When log level is ERROR and logger emits INFO statement, then nothing is written (1 ms)
+    ✓ When configuring for pretty-print, then its written to stdout
+    ✓ it should print the passed metadata (1 ms)
+    context
+      ✓ it should print the current context (1 ms)
+      ✓ it should merge with current context
+      ✓ it should override current context (1 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       9 passed, 9 total
+Snapshots:   0 total
+Time:        4.402 s, estimated 5 s
+Ran all test suites.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
