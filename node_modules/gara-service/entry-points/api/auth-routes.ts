@@ -4,7 +4,6 @@ import * as loginUseCase from '../../domain/login-use-case';
 
 export const authRoutes = () => {
   const router = express.Router();
-
   router.post('/login', loginRouterHandle);
 
   async function loginRouterHandle(req, res, next) {

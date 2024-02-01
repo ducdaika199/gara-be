@@ -1,8 +1,10 @@
 type RequestUserNamePassword = {
-    username: string;
-    password: string;
-}
+  username: string;
+  password: string;
+};
 
-
-export async function loginByUserNameAndPassword(request: RequestUserNamePassword){
+export async function loginByUserNameAndPassword(
+  request: RequestUserNamePassword
+) {
+  return true;
 }
