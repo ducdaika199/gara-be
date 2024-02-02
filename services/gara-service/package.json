@@ -17,6 +17,7 @@
   "author": "Practica team",
   "license": "ISC",
   "dependencies": {
+    "-": "^0.0.1",
     "@practica/configuration-provider": "^0.0.2",
     "@practica/error-handling": "^0.0.3",
     "@practica/jwt-token-verifier": "^0.0.2",
@@ -32,6 +33,7 @@
     "node-notifier": "^10.0.1",
     "pg": "^8.7.3",
     "puppeteer": "^21.10.0",
+    "save": "^2.9.0",
     "sequelize": "^6.17.0"
   },
   "devDependencies": {
