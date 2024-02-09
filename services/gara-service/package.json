@@ -24,6 +24,7 @@
     "@practica/logger": "^0.0.3",
     "@practica/request-context": "^0.1.0",
     "@practica/validation": "^0.0.3",
+    "@prisma/client": "^5.9.1",
     "@sinclair/typebox": "^0.23.5",
     "ajv": "^8.11.0",
     "amqplib": "^0.8.0",
@@ -32,6 +33,7 @@
     "helmet": "^6.0.0",
     "node-notifier": "^10.0.1",
     "pg": "^8.7.3",
+    "prisma": "^5.9.1",
     "puppeteer": "^21.10.0",
     "save": "^2.9.0",
     "sequelize": "^6.17.0"
