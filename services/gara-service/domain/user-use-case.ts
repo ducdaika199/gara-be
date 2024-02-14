@@ -5,7 +5,8 @@ export const getAllUsers = async () => {
   return users;
 };
 
-export const createUser = async (userId) => {
-  //   const user = await getUserDb(userId);
-  //   return user;
+export const createUser = async (req) => {
+  const user = req.body.data;
+  const data = await (user);
+  return data;
 };
