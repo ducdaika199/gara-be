@@ -6,19 +6,20 @@ import {
   getUser,
   updateUser,
 } from '../../domain/user-use-case';
+import { getAllProducts } from '../../domain/product-use-case';
 
-export const userRoutes = () => {
+export const productRoutes = () => {
   const router = express.Router();
-  router.get('/', handleSelectUsers);
+  router.get('/', handleSelectProducts);
   router.post('/', handleCreateUser);
   router.get('/:id', handleSelectUserById);
   router.put('/:id', handleUpdateUserById);
 
-  async function handleSelectUsers(req, res, next) {
+  async function handleSelectProducts(req, res, next) {
     try {
-      logger.info('check call function handle select users');
-      const users = await getAllUsers();
-      return res.status(200).json(users);
+      logger.info('Function handle select all product was call');
+      const products = await getAllProducts();
+      return res.status(200).json(products);
     } catch (error) {
       next(error);
       return undefined;
