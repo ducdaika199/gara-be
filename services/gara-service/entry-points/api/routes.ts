@@ -10,6 +10,5 @@ export default function defineRoutes(expressApp: express.Application) {
   router.use('/v1/pdf', pdfRoutes());
   router.use('/v1/users', userRoutes());
   router.use('/v1/products', productRoutes())
-  // console log router
   expressApp.use('/gara', router);
 }
