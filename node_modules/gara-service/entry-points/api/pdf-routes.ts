@@ -22,7 +22,7 @@ export const pdfRoutes = () => {
       await page.setContent(html, { waitUntil: 'load' });
       await page.emulateMediaType('screen');
 
-      await page.pdf({
+      const pdf = await page.pdf({
         path: 'result.pdf',
         margin: { top: '40px', right: '20px', bottom: '50px', left: '20px' },
         printBackground: true,
@@ -30,7 +30,8 @@ export const pdfRoutes = () => {
       });
 
       await browser.close();
-      return res.status(200).json('render success');
+      res.set("Content-Type", "application/pdf");
+      res.send(pdf);
     } catch (error) {
       next(error);
       return undefined;
