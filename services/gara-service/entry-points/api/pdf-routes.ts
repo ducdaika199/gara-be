@@ -3,6 +3,7 @@ import express from 'express';
 import puppeteer from 'puppeteer';
 import fs from 'fs';
 import * as pdfUseCase from '../../domain/pdf-use-case';
+import { getHtmlPdfFile } from '../../domain/pdf-use-case';
 
 export const pdfRoutes = () => {
   const router = express.Router();
@@ -18,7 +19,183 @@ export const pdfRoutes = () => {
         // `headless: false` enables “headful” mode.
       });
       const page = await browser.newPage();
-      const html = fs.readFileSync('sample.html', 'utf-8');
+      // const html = fs.readFileSync('sample.html', 'utf-8');
+      // const html = `<!DOCTYPE html>
+      // <html>
+      //   <head>
+      //     <title>Gara Manh Nga</title>
+      //     <meta charset="UTF-8" />
+      //     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      //     <link
+      //       href="https://fonts.googleapis.com/css?family=Be Vietnam"
+      //       rel="stylesheet"
+      //     />
+      //     <style>
+      //       body {
+      //         font-family: 'Times New Roman', Times, serif;
+      //         font-size: 14px;
+      //       }
+      //     </style>
+      //     <script src="https://cdn.tailwindcss.com"></script>
+      //   </head>
+      //   <body>
+      //     <div
+      //       class="flex border-b border-slate-600 items-center justify-between pr-4 pl-2"
+      //     >
+      //       <img
+      //         src="https://firebasestorage.googleapis.com/v0/b/image-storage-9d005.appspot.com/o/Logo.svg?alt=media&token=23085c26-f388-4e26-aa1a-e3ca3e273728"
+      //         alt=""
+      //         class="object-contain w-[150px] h-100"
+      //       />
+      //       <div class="flex flex-col items-center">
+      //         <h1 class="font-bold text-lg">GARA Ô TÔ MẠNH NGÀ</h1>
+      //         <p class="italic">59 Ngô Gia Tự, Long Biên, Hà Nội</p>
+      //         <div class="flex">
+      //           <p class="mr-4">Điện thoại: 0913936098</p>
+      //           <p>Email: Garaotomanhnga@gmail.com</p>
+      //         </div>
+      //       </div>
+      //     </div>
+
+      //     <div>
+      //       <div><p class="uppercase font-bold ml-[40px] pt-2">Đơn hàng:</p></div>
+      //       <div class="border border-slate-600 rounded">
+      //         <div class="flex px-[30px]">
+      //           <div>
+      //             <p>Tên KH:</p>
+      //             <p>Mã KH:</p>
+      //             <p>Điện thoại:</p>
+      //             <p>Địa chỉ:</p>
+      //             <p>Biển số:</p>
+      //           </div>
+      //           <div class="ml-auto">
+      //             <p>Đơn hàng số:</p>
+      //             <p>Tên xe:</p>
+      //             <p>Kiểu xe:</p>
+      //             <p>Ngày xe vào:</p>
+      //           </div>
+      //         </div>
+      //       </div>
+      //       <div class="border-slate-600 rounded mt-2">
+      //         <p class="ml-[40px]">Yêu cầu khách hàng:</p>
+      //       </div>
+      //       <table class="border-collapse border border-slate-500 mb-[50px]">
+      //         <thead>
+      //           <tr>
+      //             <th class="border border-slate-600">STT</th>
+      //             <th class="border border-slate-600">Mã VTHH</th>
+      //             <th class="border border-slate-600">Mô tả</th>
+      //             <th class="border border-slate-600 w-[30px]">ĐVT</th>
+      //             <th class="border border-slate-600 w-[30px]">SL</th>
+      //             <th class="border border-slate-600 w-[85px]">Đơn giá</th>
+      //             <th class="border border-slate-600">% CK</th>
+      //             <th class="border border-slate-600">% Thuế</th>
+      //             <th class="border border-slate-600 w-[85px]">Tiền hàng</th>
+      //             <th class="border border-slate-600 w-[85px]">Thanh toán</th>
+      //           </tr>
+      //         </thead>
+      //         <tbody>
+      //           <tr>
+      //             <th class="font-bold" colspan="10">Phần vật tư phụ tùng</th>
+      //           </tr>
+      //           <tr>
+      //             <th class="font-light border border-slate-600">1</th>
+      //             <th class="font-light border border-slate-600">DR</th>
+      //             <th class="font-light border border-slate-600">
+      //               Dầu rửa, xăng rửa, chổi
+      //             </th>
+      //             <th class="font-light border border-slate-600">Lít</th>
+      //             <th class="font-light border border-slate-600">6,0</th>
+      //             <th class="font-light border border-slate-600">50.000</th>
+      //             <th class="font-light border border-slate-600"></th>
+      //             <th class="font-light border border-slate-600"></th>
+      //             <th class="font-light border border-slate-600">300.000</th>
+      //             <th class="font-light border border-slate-600">300.000</th>
+      //           </tr>
+      //           <tr>
+      //             <th colspan="3">Tổng cộng tiền vật tư, phụ tùng</th>
+      //             <th></th>
+      //             <th></th>
+      //             <th></th>
+      //             <th></th>
+      //             <th></th>
+      //             <th>5.922.000</th>
+      //             <th>5.922.000</th>
+      //           </tr>
+      //           <tr class="border border-slate-600">
+      //             <th colspan="10">Phần sửa chữa chung</th>
+      //           </tr>
+      //           <tr>
+      //             <th class="font-light border border-slate-600">1</th>
+      //             <th class="font-light border border-slate-600">NCTLS</th>
+      //             <th class="font-light border border-slate-600">
+      //               Nhân công tháo lắp, căn chỉnh toàn bộ động cơ
+      //             </th>
+      //             <th class="font-light border border-slate-600">Lượt</th>
+      //             <th class="font-light border border-slate-600">1.0</th>
+      //             <th class="font-light border border-slate-600">6.500.000</th>
+      //             <th class="font-light border border-slate-600"></th>
+      //             <th class="font-light border border-slate-600"></th>
+      //             <th class="font-light border border-slate-600">6.500.000</th>
+      //             <th class="font-light border border-slate-600">6.500.000</th>
+      //           </tr>
+      //           <tr>
+      //             <th colspan="3">Tổng cộng tiền công</th>
+      //             <th></th>
+      //             <th></th>
+      //             <th></th>
+      //             <th></th>
+      //             <th></th>
+      //             <th>5.922.000</th>
+      //             <th>5.922.000</th>
+      //           </tr>
+      //         </tbody>
+      //       </table>
+      //       <div class="font-bold ml-auto w-[220px] mb-[20px]">
+      //         <div
+      //           class="bg-slate-200 justify-center items-center px-4 border-t border-slate-300"
+      //         >
+      //           <p>Tổng tiền hàng: 13.922.000</p>
+      //         </div>
+      //         <div class="justify-center items-center px-4 border-t border-slate-300">
+      //           <p>Tổng CK: 0</p>
+      //         </div>
+      //         <div
+      //           class="bg-slate-200 justify-center items-center px-4 border-t border-slate-300"
+      //         >
+      //           <p>Thuế VAT: 0</p>
+      //         </div>
+      //         <div class="justify-center items-center px-4 border-t border-slate-300">
+      //           <p>Tổng thanh toán: 13.922.000</p>
+      //         </div>
+      //       </div>
+      //       <div class="ml-auto w-[350px] italic">
+      //         <p>Số tiền bằng chữ: Mười ba triệu chín trăm hai chục ngàn</p>
+      //       </div>
+      //       <div class="flex justify-between px-4 pt-4 pb-[100px]">
+      //         <div class="flex flex-col justify-center items-center">
+      //           <p class="font-bold uppercase">Khách hàng</p>
+      //           <p class="italic">(Ký, họ tên)</p>
+      //         </div>
+      //         <div class="flex flex-col justify-center items-center">
+      //           <p class="font-bold uppercase">Kế toán</p>
+      //           <p class="italic">(Ký, họ tên)</p>
+      //         </div>
+      //         <div class="flex flex-col justify-center items-center">
+      //           <p class="font-bold uppercase">Người lập phiếu</p>
+      //           <p class="italic">(Ký, họ tên)</p>
+      //         </div>
+      //         <div class="flex flex-col justify-center items-center">
+      //           <p class="font-bold uppercase">Người phê duyệt</p>
+      //           <p class="italic">(Ký, họ tên)</p>
+      //         </div>
+      //       </div>
+      //     </div>
+      //   </body>
+      // </html>
+      // `;
+
+      const html = await getHtmlPdfFile();
       await page.setContent(html, { waitUntil: 'load' });
       await page.emulateMediaType('screen');
 
@@ -30,7 +207,7 @@ export const pdfRoutes = () => {
       });
 
       await browser.close();
-      res.set("Content-Type", "application/pdf");
+      res.set('Content-Type', 'application/pdf');
       res.send(pdf);
     } catch (error) {
       next(error);

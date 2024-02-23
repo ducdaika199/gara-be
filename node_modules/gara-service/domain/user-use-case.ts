@@ -5,8 +5,9 @@ import {
   updateUserDb,
 } from '../data-access/user-repository';
 
-export const getAllUsers = async () => {
-  const users = await getAllUsersDb();
+export const getAllUsers = async (req) => {
+  const { take, skip } = req.query;
+  const users = await getAllUsersDb({ take, skip });
   return users;
 };
 

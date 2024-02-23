@@ -2,9 +2,34 @@ import { PrismaClient, User } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export const getAllUsersDb = async () => {
-  const users = await prisma.user.findMany();
-  return users;
+export const getAllUsersDb = async ({ take, skip }) => {
+  let query = {
+    take: 5,
+    skip: 0,
+  };
+  if (take && skip) {
+    query = {
+      take: +take,
+      skip: +skip,
+    };
+  }
+  const users = await prisma.$transaction([
+    prisma.user.findMany({
+      ...query,
+      where: {
+        status: 'ACTIVE',
+      },
+    }),
+    prisma.user.count(),
+  ]);
+  return {
+    data: users[0],
+    total: users[1],
+    pagination: {
+      take,
+      skip,
+    },
+  };
 };
 
 export const getUserDb = async (id) => {

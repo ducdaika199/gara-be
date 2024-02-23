@@ -1,27 +1,26 @@
-import { getAllProductsDb } from '../data-access/product-repository';
 import {
-  createUserDb,
-  getAllUsersDb,
-  getUserDb,
-  updateUserDb,
-} from '../data-access/user-repository';
+  createProductDb,
+  getAllProductsDb,
+  getProductDb,
+} from '../data-access/product-repository';
 
-export const getAllProducts = async () => {
-  const products = await getAllProductsDb();
+export const getAllProducts = async (req) => {
+  const { take, skip } = req.query;
+  const products = await getAllProductsDb({ take, skip });
   return products;
 };
 
-export const getUser = async (id) => {
-  const user = await getUserDb(id);
+export const getProduct = async (id) => {
+  const user = await getProductDb(id);
   return user;
 };
 
-export const createUser = async (data) => {
-  const user = await createUserDb(data);
+export const createProduct = async (data) => {
+  const user = await createProductDb(data);
   return user;
 };
 
-export const updateUser = async (id, data) => {
-  const user = await updateUserDb(id, data);
+export const updateProduct = async (id, data) => {
+  const user = await updateProduct(id, data);
   return user;
 };

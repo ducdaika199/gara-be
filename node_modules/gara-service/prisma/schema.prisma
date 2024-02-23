@@ -20,9 +20,10 @@ model User {
   address String?
   carName String?
   carType String?
-  joinDate DateTime?
+  joinDate DateTime? @default(now())
   invoices Invoice[]
   status Status @default(ACTIVE)
+  isAdmin Boolean? @default(false)
 }
 
 model Product {

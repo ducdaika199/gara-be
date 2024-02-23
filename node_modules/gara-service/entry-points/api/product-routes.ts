@@ -6,19 +6,24 @@ import {
   getUser,
   updateUser,
 } from '../../domain/user-use-case';
-import { getAllProducts } from '../../domain/product-use-case';
+import {
+  createProduct,
+  getAllProducts,
+  getProduct,
+  updateProduct,
+} from '../../domain/product-use-case';
 
 export const productRoutes = () => {
   const router = express.Router();
   router.get('/', handleSelectProducts);
-  router.post('/', handleCreateUser);
-  router.get('/:id', handleSelectUserById);
-  router.put('/:id', handleUpdateUserById);
+  router.post('/', handleCreateProduct);
+  router.get('/:id', handleSelectProductById);
+  router.put('/:id', handleUpdateProductById);
 
   async function handleSelectProducts(req, res, next) {
     try {
       logger.info('Function handle select all product was call');
-      const products = await getAllProducts();
+      const products = await getAllProducts(req);
       return res.status(200).json(products);
     } catch (error) {
       next(error);
@@ -26,24 +31,24 @@ export const productRoutes = () => {
     }
   }
 
-  async function handleSelectUserById(req, res, next) {
+  async function handleSelectProductById(req, res, next) {
     try {
-      logger.info('check call function handle select user');
+      logger.info('check call function handle select product');
       const id = req.params.id;
-      const user = await getUser(+id);
-      return res.status(200).json(user);
+      const product = await getProduct(+id);
+      return res.status(200).json(product);
     } catch (error) {
       next(error);
       return undefined;
     }
   }
 
-  async function handleCreateUser(req, res, next) {
+  async function handleCreateProduct(req, res, next) {
     try {
-      logger.info('Check call function handle create user');
+      logger.info('Check call function handle create product');
       const data = req.body;
-      const user = await createUser(data);
-      return res.status(200).json(user);
+      const product = await createProduct(data);
+      return res.status(200).json(product);
     } catch (error) {
       next(error);
       return undefined;
@@ -52,13 +57,13 @@ export const productRoutes = () => {
   return router;
 };
 
-async function handleUpdateUserById(req, res, next) {
+async function handleUpdateProductById(req, res, next) {
   try {
-    logger.info('Check call function handle update user by id');
-    const id = req.params.id;
+    logger.info('Check call function handle update product by id');
+    const id = +req.params.id;
     const data = req.body;
-    const user = await updateUser(id, data);
-    return res.status(200).json(user);
+    const product = await updateProduct(id, data);
+    return res.status(200).json(product);
   } catch (error) {
     next(error);
     return undefined;

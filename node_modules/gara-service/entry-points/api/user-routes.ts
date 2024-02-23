@@ -16,8 +16,7 @@ export const userRoutes = () => {
 
   async function handleSelectUsers(req, res, next) {
     try {
-      logger.info('check call function handle select users');
-      const users = await getAllUsers();
+      const users = await getAllUsers(req);
       return res.status(200).json(users);
     } catch (error) {
       next(error);
@@ -54,7 +53,7 @@ export const userRoutes = () => {
 async function handleUpdateUserById(req, res, next) {
   try {
     logger.info('Check call function handle update user by id');
-    const id = req.params.id;
+    const id = +req.params.id;
     const data = req.body;
     const user = await updateUser(id, data);
     return res.status(200).json(user);
