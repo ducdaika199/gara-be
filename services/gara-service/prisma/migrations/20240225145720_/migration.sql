@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Product" ALTER COLUMN "ck" SET DEFAULT 0,
+ALTER COLUMN "tax" SET DEFAULT 0;

@@ -20,7 +20,6 @@ model User {
   address String?
   carName String?
   carType String?
-  joinDate DateTime? @default(now())
   invoices Invoice[]
   status Status @default(ACTIVE)
   isAdmin Boolean? @default(false)
@@ -32,8 +31,8 @@ model Product {
   description String?
   countUnit String?
   priceUnit Decimal
-  ck Decimal
-  tax Decimal
+  ck Decimal? @default(0)
+  tax Decimal? @default(0)
   type TypeWork @default(SUPPLIES)
   invoiceItems InvoiceItem[]
 }
@@ -41,6 +40,7 @@ model Product {
 model Invoice {
   id Int @id @default(autoincrement())
   userRequest String?
+  joinDate DateTime? @default(now())
   userId Int
   user User @relation(fields: [userId], references: [id])
   invoiceItems InvoiceItem[]

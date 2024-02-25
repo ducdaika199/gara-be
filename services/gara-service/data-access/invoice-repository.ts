@@ -32,7 +32,18 @@ export const getInvoiceDb = async (id) => {
     where: {
       id: id,
     },
-  });
+    include: {
+      invoiceItems: {
+        select: {
+          quantity: true,
+          id: true,
+          product: true
+        },
+      },
+      user: true
+    },
+
+  })
   return invoice;
 };
 

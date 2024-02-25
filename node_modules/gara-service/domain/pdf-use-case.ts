@@ -1,4 +1,19 @@
-const renderTemplate = async () => {
+import { Invoice, Product, User } from '@prisma/client';
+import { getInvoiceDb } from '../data-access/invoice-repository';
+import { getInvoice } from './invoice-use-case';
+
+const renderTemplate = async (invoice) => {
+  const joinDate = new Date(invoice?.joinDate).toLocaleDateString();
+  const invoiceItems = invoice?.invoiceItems;
+  const productItems = invoiceItems.map((item) => {
+    const moneyProduct = ((item?.quantity) * (item?.product?.priceUnit));
+    const moneyPay = moneyProduct + ((moneyProduct * (item?.product?.tax / 100))) + ((moneyProduct * (item?.product?.ck / 100)));
+    return {
+      data: item,
+      moneyProduct,
+      moneyPay
+    }
+  })
   const template = `<!DOCTYPE html>
 <html>
   <head>
@@ -41,22 +56,22 @@ const renderTemplate = async () => {
       <div class="border border-slate-600 rounded">
         <div class="flex px-[30px]">
           <div>
-            <p>Tên KH: </p>
-            <p>Mã KH:</p>
-            <p>Điện thoại:</p>
-            <p>Địa chỉ:</p>
-            <p>Biển số:</p>
+            <p>Tên KH: ${invoice?.user?.name}</p>
+            <p>Mã KH:  ${invoice?.user?.code}</p>
+            <p>Điện thoại:${invoice?.user?.phoneNumber} </p>
+            <p>Địa chỉ: ${invoice?.user?.address}</p>
+            <p>Biển số:${invoice?.user?.plateNumber} </p>
           </div>
           <div class="ml-auto">
-            <p>Đơn hàng số:</p>
-            <p>Tên xe:</p>
-            <p>Kiểu xe:</p>
-            <p>Ngày xe vào:</p>
+            <p>Đơn hàng số: ${invoice?.id}</p>
+            <p>Tên xe: ${invoice?.user?.carName} </p>
+            <p>Kiểu xe: ${invoice?.user?.carType} </p>
+            <p>Ngày xe vào: ${joinDate}</p>
           </div>
         </div>
       </div>
       <div class="border-slate-600 rounded mt-2">
-        <p class="ml-[40px]">Yêu cầu khách hàng:</p>
+        <p class="ml-[40px]">Yêu cầu khách hàng: ${invoice?.userRequest}</p>
       </div>
       <table class="border-collapse border border-slate-500 mb-[50px]">
         <thead>
@@ -78,8 +93,8 @@ const renderTemplate = async () => {
             <th class="font-bold" colspan="10">Phần vật tư phụ tùng</th>
           </tr>
           <tr>
-            <th class="font-light border border-slate-600">1</th>
-            <th class="font-light border border-slate-600">DR</th>
+            <th class="font-light border border-slate-600">${productItems?.data?.id}</th>
+            <th class="font-light border border-slate-600">${productItems.productItem?.code}</th>
             <th class="font-light border border-slate-600">
               Dầu rửa, xăng rửa, chổi
             </th>
@@ -176,6 +191,7 @@ const renderTemplate = async () => {
   return template;
 };
 
-export const getHtmlPdfFile = async () => {
-  return renderTemplate();
+export const getHtmlPdfFile = async (id) => {
+  const invoice = await getInvoiceDb(id);
+  return renderTemplate(invoice);
 };
