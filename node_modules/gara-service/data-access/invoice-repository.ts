@@ -1,4 +1,5 @@
 import { Invoice, PrismaClient } from '@prisma/client';
+import { InvoiceModel } from './model/invoice-model';
 
 const prisma = new PrismaClient();
 
@@ -37,19 +38,39 @@ export const getInvoiceDb = async (id) => {
         select: {
           quantity: true,
           id: true,
-          product: true
+          product: true,
         },
       },
-      user: true
+      user: true,
     },
-
-  })
+  });
   return invoice;
 };
 
 export const createInvoiceDb = async (data: Invoice) => {
   const invoice = await prisma.invoice.create({
-    data: data,
+    data: {
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
+      userRequest: 'this is for testing',
+      invoiceItems: {
+        createMany: {
+          data: [
+            {
+              productId: 1,
+              quantity: 5,
+            },
+            {
+              productId: 2,
+              quantity: 5,
+            },
+          ],
+        },
+      },
+    },
   });
   return invoice;
 };

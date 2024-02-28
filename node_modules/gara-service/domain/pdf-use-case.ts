@@ -5,14 +5,24 @@ import { getInvoice } from './invoice-use-case';
 const renderTemplate = async (invoice) => {
   const joinDate = new Date(invoice?.joinDate).toLocaleDateString();
   const invoiceItems = invoice?.invoiceItems;
-  const suppliesProducts = invoiceItems.filter((el) => el.product.type === "SUPPLIES");
-  const totalMoneyProduct = suppliesProducts.reduce((acc, cur) => acc + ((cur.quantity) * (cur.product.priceUnit)), 0);
+  const suppliesProducts = invoiceItems.filter(
+    (el) => el.product.type === 'SUPPLIES'
+  );
+  const totalMoneyProduct = suppliesProducts.reduce(
+    (acc, cur) => acc + cur.quantity * cur.product.priceUnit,
+    0
+  );
   const totalMoneyPayProduct = suppliesProducts.reduce((acc, cur) => {
-    const moneyProduct = ((cur?.quantity) * (cur?.product?.priceUnit));
-    const moneyPay = moneyProduct + ((moneyProduct * (cur?.product?.tax / 100))) + ((moneyProduct * (cur?.product?.ck / 100)));
-    return acc + (moneyPay);
+    const moneyProduct = cur?.quantity * cur?.product?.priceUnit;
+    const moneyPay =
+      moneyProduct +
+      moneyProduct * (cur?.product?.tax / 100) +
+      moneyProduct * (cur?.product?.ck / 100);
+    return acc + moneyPay;
   }, 0);
-  const repairsGeneral = invoiceItems.filter((el) => el.product.type === "REPAIRS");
+  const repairsGeneral = invoiceItems.filter(
+    (el) => el.product.type === 'REPAIRS'
+  );
 
   const template = `<!DOCTYPE html>
 <html>
@@ -92,10 +102,14 @@ const renderTemplate = async (invoice) => {
         <tr>
         <th class="font-bold" colspan="10">Phần vật tư phụ tùng</th>
       </tr>
-         ${suppliesProducts.map((item, index) => {
-    const moneyProduct = ((item?.quantity) * (item?.product?.priceUnit));
-    const moneyPay = moneyProduct + ((moneyProduct * (item?.product?.tax / 100))) + ((moneyProduct * (item?.product?.ck / 100)));
-    const tableItemsData = `
+         ${suppliesProducts
+           .map((item, index) => {
+             const moneyProduct = item?.quantity * item?.product?.priceUnit;
+             const moneyPay =
+               moneyProduct +
+               moneyProduct * (item?.product?.tax / 100) +
+               moneyProduct * (item?.product?.ck / 100);
+             const tableItemsData = `
    
   <tr>
     <th class="font-light border border-slate-600">${index + 1}</th>
@@ -111,10 +125,10 @@ const renderTemplate = async (invoice) => {
     <th class="font-light border border-slate-600">${moneyProduct.toLocaleString('it-IT')}</th>
     <th class="font-light border border-slate-600">${moneyPay.toLocaleString('it-IT')}</th>
   </tr>  
-  `
-    return tableItemsData;
-
-  }).join(' ')}
+  `;
+             return tableItemsData;
+           })
+           .join(' ')}
   <tr>
   <th colspan="3">Tổng cộng tiền vật tư, phụ tùng</th>
   <th></th>
@@ -202,5 +216,6 @@ const renderTemplate = async (invoice) => {
 
 export const getHtmlPdfFile = async (id) => {
   const invoice = await getInvoiceDb(id);
+  console.log(invoice, '------------invoice--------');
   return renderTemplate(invoice);
 };

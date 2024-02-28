@@ -2,6 +2,7 @@ import {
   createProductDb,
   getAllProductsDb,
   getProductDb,
+  updateProductDb,
 } from '../data-access/product-repository';
 
 export const getAllProducts = async (req) => {
@@ -11,16 +12,16 @@ export const getAllProducts = async (req) => {
 };
 
 export const getProduct = async (id) => {
-  const user = await getProductDb(id);
-  return user;
+  const product = await getProductDb(id);
+  return product;
 };
 
 export const createProduct = async (data) => {
-  const user = await createProductDb(data);
-  return user;
+  const product = await createProductDb(data);
+  return product;
 };
 
 export const updateProduct = async (id, data) => {
-  const user = await updateProduct(id, data);
-  return user;
+  const product = await updateProductDb(id, data);
+  return product;
 };
