@@ -142,20 +142,31 @@ const renderTemplate = async (invoice) => {
           <tr class="border border-slate-600">
             <th colspan="10">Phần sửa chữa chung</th>
           </tr>
-          <tr>
-            <th class="font-light border border-slate-600">1</th>
-            <th class="font-light border border-slate-600">NCTLS</th>
-            <th class="font-light border border-slate-600">
-              Nhân công tháo lắp, căn chỉnh toàn bộ động cơ
-            </th>
-            <th class="font-light border border-slate-600">Lượt</th>
-            <th class="font-light border border-slate-600">1.0</th>
-            <th class="font-light border border-slate-600">6.500.000</th>
-            <th class="font-light border border-slate-600"></th>
-            <th class="font-light border border-slate-600"></th>
-            <th class="font-light border border-slate-600">6.500.000</th>
-            <th class="font-light border border-slate-600">6.500.000</th>
-          </tr>
+        ${repairsGeneral
+          .map((item, index) => {
+            const moneyProduct = item?.quantity * item?.product?.priceUnit;
+            const moneyPay =
+              moneyProduct +
+              moneyProduct * (item?.product?.tax / 100) +
+              moneyProduct * (item?.product?.ck / 100);
+            const tableItemsData = `<tr>
+          <th class="font-light border border-slate-600">${index}</th>
+          <th class="font-light border border-slate-600">${item?.product?.code}</th>
+          <th class="font-light border border-slate-600">
+            ${item?.product?.description}
+          </th>
+          <th class="font-light border border-slate-600">${item?.product?.countUnit}</th>
+          <th class="font-light border border-slate-600">${item?.quantity}</th>
+          <th class="font-light border border-slate-600">${parseInt(item.product.priceUnit).toLocaleString('it-IT')}</th>
+          <th class="font-light border border-slate-600">${item.product.ck}</th>
+          <th class="font-light border border-slate-600">${item.product.tax}</th>
+          <th class="font-light border border-slate-600">${moneyProduct.toLocaleString('it-IT')}</th>
+          <th class="font-light border border-slate-600">${moneyPay.toLocaleString('it-IT')}</th>
+        </tr>`;
+            return tableItemsData;
+          })
+          .join(' ')}
+          
           <tr>
             <th colspan="3">Tổng cộng tiền công</th>
             <th></th>

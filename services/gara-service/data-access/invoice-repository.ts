@@ -47,27 +47,19 @@ export const getInvoiceDb = async (id) => {
   return invoice;
 };
 
-export const createInvoiceDb = async (data: Invoice) => {
+export const createInvoiceDb = async (data: InvoiceModel) => {
+  const { userRequest, userId, invoiceItems } = data;
   const invoice = await prisma.invoice.create({
     data: {
       user: {
         connect: {
-          id: 1,
+          id: userId,
         },
       },
-      userRequest: 'this is for testing',
+      userRequest,
       invoiceItems: {
         createMany: {
-          data: [
-            {
-              productId: 1,
-              quantity: 5,
-            },
-            {
-              productId: 2,
-              quantity: 5,
-            },
-          ],
+          data: invoiceItems,
         },
       },
     },

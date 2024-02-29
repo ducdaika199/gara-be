@@ -1,13 +1,13 @@
 import { InvoiceItem, User } from '@prisma/client';
 
 type InvoiceItemModel = {
-  quantity: Number;
-  productId: Number;
+  quantity: number;
+  productId: number;
 };
 
 export type InvoiceModel = {
-  userId: any;
+  userId: number;
   invoiceItems: InvoiceItemModel[];
-  userRequest: String;
+  userRequest: string;
   user: User;
 };
