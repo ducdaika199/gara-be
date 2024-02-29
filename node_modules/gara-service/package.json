@@ -37,7 +37,8 @@
     "prisma": "^5.10.2",
     "puppeteer": "^21.10.0",
     "save": "^2.9.0",
-    "sequelize": "^6.17.0"
+    "sequelize": "^6.17.0",
+    "vn-num2words": "^1.0.4"
   },
   "devDependencies": {
     "@jest-performance-reporter/core": "^2.1.2",
