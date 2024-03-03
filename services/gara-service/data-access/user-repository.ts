@@ -1,4 +1,5 @@
 import { PrismaClient, User } from '@prisma/client';
+import { username } from './config/config';
 
 const prisma = new PrismaClient();
 
@@ -57,3 +58,12 @@ export const updateUserDb = async (id, data) => {
   });
   return user;
 };
+
+export const getUserByUserNameDb = async (userName) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      userName: userName
+    }
+  });
+  return user;
+}

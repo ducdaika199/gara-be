@@ -4,6 +4,7 @@ import {
   getUserDb,
   updateUserDb,
 } from '../data-access/user-repository';
+import { getUserByUserNameDb } from './../data-access/user-repository';
 
 export const getAllUsers = async (req) => {
   const { take, skip } = req.query;
@@ -25,3 +26,8 @@ export const updateUser = async (id, data) => {
   const user = await updateUserDb(id, data);
   return user;
 };
+
+export const getUserByUserName = async (userName) => {
+  const user = await getUserByUserNameDb(userName);
+  return user
+}
