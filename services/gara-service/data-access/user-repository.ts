@@ -59,11 +59,11 @@ export const updateUserDb = async (id, data) => {
   return user;
 };
 
-export const getUserByUserNameDb = async (userName) => {
+export const getUserByUserNameDb = async (username) => {
   const user = await prisma.user.findUnique({
     where: {
-      userName: userName
-    }
+      username: username,
+    },
   });
   return user;
-}
+};

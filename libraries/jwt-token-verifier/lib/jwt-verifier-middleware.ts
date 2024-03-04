@@ -6,7 +6,6 @@ export type JWTOptions = {
 };
 
 export const jwtVerifierMiddleware = (options: JWTOptions) => {
-  console.log('meo meo con meo')
   // 🔒 TODO - Once your project is off a POC stage, change your JWT flow to async using JWKS
   // Read more here: https://www.npmjs.com/package/jwks-rsa
   const middleware = (req, res, next) => {

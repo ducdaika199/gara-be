@@ -1,3 +1,4 @@
+import { secure } from './../../../../libraries/jwt-token-verifier/lib/authentication';
 import { logger } from '@practica/logger';
 import express from 'express';
 import puppeteer from 'puppeteer';
@@ -7,7 +8,7 @@ import { getHtmlPdfFile } from '../../domain/pdf-use-case';
 
 export const pdfRoutes = () => {
   const router = express.Router();
-  router.get('/invoice/:id', handleRenderPdfInvoice);
+  router.get('/invoice/:id', secure, handleRenderPdfInvoice);
 
   async function handleRenderPdfInvoice(req, res, next) {
     try {

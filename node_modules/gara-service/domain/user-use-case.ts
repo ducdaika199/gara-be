@@ -27,7 +27,11 @@ export const updateUser = async (id, data) => {
   return user;
 };
 
-export const getUserByUserName = async (userName) => {
-  const user = await getUserByUserNameDb(userName);
-  return user
-}
+export const getUserByUserName = async (username) => {
+  try {
+    const user = await getUserByUserNameDb(username);
+    return user;
+  } catch (err) {
+    return null;
+  }
+};
