@@ -15,7 +15,7 @@ model User {
   username String? @unique
   password String? 
   email String?
-  name String
+  name String?
   code String?
   phoneNumber String?
   plateNumber String?

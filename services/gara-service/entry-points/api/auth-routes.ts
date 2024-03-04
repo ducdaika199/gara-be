@@ -5,9 +5,9 @@ import {
   getAllUsers,
   getUserByUserName,
 } from '../../domain/user-use-case';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import bcrypt from "bcrypt";
 
 export const authRoutes = () => {
   const refreshTokensDB: string[] = [];
@@ -25,9 +25,9 @@ export const authRoutes = () => {
         (item) => item.username === req.body.username
       );
       if (!findUser) {
-        const hashPassword = await bcrypt.hash(req.password, 10);
+        const hashPassword = await bcrypt.hash(req.body.password, 10);
         const newUser = {
-          username: req.username,
+          username: req.body.username,
           password: hashPassword,
         };
         const userRegister = await createUser(newUser);
@@ -47,7 +47,7 @@ export const authRoutes = () => {
       const user = await getUserByUserName(req.username);
       if (user) {
         let submittedPass = req.body.password;
-        let storedPass = user.password;
+        let storedPass = user.password as string;
 
         const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
         if (passwordMatch) {
