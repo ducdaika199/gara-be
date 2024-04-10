@@ -7,7 +7,7 @@ import {
 } from '../../domain/user-use-case';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt';
 
 export const authRoutes = () => {
   const refreshTokensDB: string[] = [];
@@ -30,6 +30,7 @@ export const authRoutes = () => {
           username: req.body.username,
           password: hashPassword,
         };
+        console.log(newUser, '------newUser------');
         const userRegister = await createUser(newUser);
         return res.status(200).json(userRegister);
       } else {
