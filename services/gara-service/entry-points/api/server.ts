@@ -9,6 +9,7 @@ import { jwtVerifierMiddleware } from '@practica/jwt-token-verifier';
 import { addRequestIdExpressMiddleware } from '@practica/request-context';
 import configurationSchema from '../../config';
 import defineRoutes from './routes';
+import cors from 'cors';
 
 let connection: Server;
 
@@ -27,6 +28,7 @@ async function startWebServer(): Promise<AddressInfo> {
   const expressApp = express();
   expressApp.use(addRequestIdExpressMiddleware);
   expressApp.use(helmet());
+  expressApp.use(cors());
   expressApp.use(express.urlencoded({ extended: true }));
   expressApp.use(express.json());
   // expressApp.use(

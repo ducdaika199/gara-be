@@ -30,7 +30,6 @@ export const authRoutes = () => {
           username: req.body.username,
           password: hashPassword,
         };
-        console.log(newUser, '------newUser------');
         const userRegister = await createUser(newUser);
         return res.status(200).json(userRegister);
       } else {
@@ -45,7 +44,7 @@ export const authRoutes = () => {
   async function loginUserHandler(req, res, next) {
     try {
       logger.info(`Login API was called`);
-      const user = await getUserByUserName(req.username);
+      const user = await getUserByUserName(req.body.username);
       if (user) {
         let submittedPass = req.body.password;
         let storedPass = user.password as string;
@@ -71,7 +70,6 @@ export const authRoutes = () => {
       } else {
         let fakePass = `$2b$$10$ifgfgfgfgfgfgfggfgfgfggggfgfgfga`; //fake password is used just to slow down the time required to send a response to the user
         await bcrypt.compare(req.body.password, fakePass);
-
         res.json({ message: 'Invalid email or password' });
       }
     } catch (error) {
