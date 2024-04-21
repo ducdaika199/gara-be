@@ -1,3 +1,4 @@
+import { secure } from '@practica/jwt-token-verifier/lib/secure';
 import { logger } from '@practica/logger';
 import express from 'express';
 import {
@@ -9,12 +10,13 @@ import {
 
 export const userRoutes = () => {
   const router = express.Router();
-  router.get('/', handleSelectUsers);
-  router.post('/', handleCreateUser);
-  router.get('/:id', handleSelectUserById);
-  router.put('/:id', handleUpdateUserById);
+  router.get('/', secure(), handleSelectUsers);
+  router.post('/', secure(), handleCreateUser);
+  router.get('/:id', secure(), handleSelectUserById);
+  router.put('/:id', secure(), handleUpdateUserById);
 
   async function handleSelectUsers(req, res, next) {
+    logger.info('check call function handle select users');
     try {
       const users = await getAllUsers(req);
       return res.status(200).json(users);

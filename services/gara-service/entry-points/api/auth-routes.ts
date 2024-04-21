@@ -45,8 +45,10 @@ export const authRoutes = () => {
     try {
       logger.info(`Login API was called`);
       const user = await getUserByUserName(req.body.username);
+      console.log(user, '-------user-------');
       if (user) {
         let submittedPass = req.body.password;
+        console.log(submittedPass, '-------submittedPass-----');
         let storedPass = user.password as string;
 
         const passwordMatch = await bcrypt.compare(submittedPass, storedPass);

@@ -6,13 +6,14 @@ import {
   getInvoice,
   updateInvoice,
 } from '../../domain/invoice-use-case';
+import { secure } from '@practica/jwt-token-verifier/lib/secure';
 
 export const invoiceRoutes = () => {
   const router = express.Router();
-  router.get('/', handleSelectInvoices);
-  router.post('/', handleCreateInvoice);
-  router.get('/:id', handleSelectInvoiceById);
-  router.put('/:id', handleUpdateInvoiceById);
+  router.get('/', secure(), handleSelectInvoices);
+  router.post('/', secure(), handleCreateInvoice);
+  router.get('/:id', secure(), handleSelectInvoiceById);
+  router.put('/:id', secure(), handleUpdateInvoiceById);
 
   async function handleSelectInvoices(req, res, next) {
     try {

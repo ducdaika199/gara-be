@@ -12,13 +12,14 @@ import {
   getProduct,
   updateProduct,
 } from '../../domain/product-use-case';
+import { secure } from '@practica/jwt-token-verifier/lib/secure';
 
 export const productRoutes = () => {
   const router = express.Router();
-  router.get('/', handleSelectProducts);
-  router.post('/', handleCreateProduct);
-  router.get('/:id', handleSelectProductById);
-  router.put('/:id', handleUpdateProductById);
+  router.get('/', secure(), handleSelectProducts);
+  router.post('/', secure(), handleCreateProduct);
+  router.get('/:id', secure(), handleSelectProductById);
+  router.put('/:id', secure(), handleUpdateProductById);
 
   async function handleSelectProducts(req, res, next) {
     try {
