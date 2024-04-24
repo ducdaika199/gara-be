@@ -1,8 +1,5 @@
 /* eslint-disable consistent-return */
 import jwt from 'jsonwebtoken';
-import * as util from 'util';
-
-const verifyJwt = util.promisify(jwt.verify).bind(jwt) as any;
 
 enum TokenPrefix {
   BEARER = 'bearer',
