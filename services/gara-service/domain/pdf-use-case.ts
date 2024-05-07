@@ -35,9 +35,15 @@ const renderTemplate = async (invoice) => {
     return acc + moneyPay;
   }, 0);
 
-  const totalMoneyProductRepairs = (parseInt(totalMoneyProduct) + parseInt(totalMoneyRepairs)).toLocaleString('it-IT');
-  const totalMoneyPayProductRepairs = (parseInt(totalMoneyPayProduct) + parseInt(totalMoneyPayRepairs)).toLocaleString('it-IT');
-  const numberToWords = VNnum2words((parseInt(totalMoneyPayProduct) + parseInt(totalMoneyPayRepairs)));
+  const totalMoneyProductRepairs = (
+    parseInt(totalMoneyProduct) + parseInt(totalMoneyRepairs)
+  ).toLocaleString('it-IT');
+  const totalMoneyPayProductRepairs = (
+    parseInt(totalMoneyPayProduct) + parseInt(totalMoneyPayRepairs)
+  ).toLocaleString('it-IT');
+  const numberToWords = VNnum2words(
+    parseInt(totalMoneyPayProduct) + parseInt(totalMoneyPayRepairs)
+  );
 
   const template = `<!DOCTYPE html>
 <html>
@@ -81,24 +87,24 @@ const renderTemplate = async (invoice) => {
       <div class="border border-slate-600 rounded">
         <div class="flex px-[30px]">
           <div>
-            <p>Tên KH: ${invoice?.user?.name}</p>
-            <p>Mã KH:  ${invoice?.user?.code}</p>
-            <p>Điện thoại:${invoice?.user?.phoneNumber} </p>
-            <p>Địa chỉ: ${invoice?.user?.address}</p>
-            <p>Biển số:${invoice?.user?.plateNumber} </p>
+            <p>Tên KH: ${invoice?.user?.name || ''}</p>
+            <p>Mã KH:  ${invoice?.user?.code || ''}</p>
+            <p>Điện thoại:${invoice?.user?.phoneNumber || ''} </p>
+            <p>Địa chỉ: ${invoice?.user?.address || ''}</p>
+            <p>Biển số:${invoice?.user?.plateNumber || ''} </p>
           </div>
           <div class="ml-auto">
-            <p>Đơn hàng số: ${invoice?.id}</p>
-            <p>Tên xe: ${invoice?.user?.carName} </p>
-            <p>Kiểu xe: ${invoice?.user?.carType} </p>
-            <p>Ngày xe vào: ${joinDate}</p>
+            <p>Đơn hàng số: ${invoice?.id || ''}</p>
+            <p>Tên xe: ${invoice?.user?.carName || ''} </p>
+            <p>Kiểu xe: ${invoice?.user?.carType || ''} </p>
+            <p>Ngày xe vào: ${joinDate || ''}</p>
           </div>
         </div>
       </div>
       <div class="border-slate-600 rounded mt-2">
         <p class="ml-[40px]">Yêu cầu khách hàng: ${invoice?.userRequest}</p>
       </div>
-      <table class="border-collapse border border-slate-500 mb-[50px]">
+      <table class="border-collapse border border-slate-500 mb-[50px] w-full">
         <thead>
           <tr>
             <th class="border border-slate-600">STT</th>
@@ -118,13 +124,13 @@ const renderTemplate = async (invoice) => {
         <th class="font-bold" colspan="10">Phần vật tư phụ tùng</th>
       </tr>
          ${suppliesProducts
-      .map((item, index) => {
-        const moneyProduct = item?.quantity * item?.product?.priceUnit;
-        const moneyPay =
-          moneyProduct +
-          moneyProduct * (item?.product?.tax / 100) +
-          moneyProduct * (item?.product?.ck / 100);
-        const tableItemsData = `
+           .map((item, index) => {
+             const moneyProduct = item?.quantity * item?.product?.priceUnit;
+             const moneyPay =
+               moneyProduct +
+               moneyProduct * (item?.product?.tax / 100) +
+               moneyProduct * (item?.product?.ck / 100);
+             const tableItemsData = `
    
   <tr>
     <th class="font-light border border-slate-600">${index + 1}</th>
@@ -141,9 +147,9 @@ const renderTemplate = async (invoice) => {
     <th class="font-light border border-slate-600">${moneyPay.toLocaleString('it-IT')}</th>
   </tr>  
   `;
-        return tableItemsData;
-      })
-      .join(' ')}
+             return tableItemsData;
+           })
+           .join(' ')}
   <tr>
   <th colspan="3">Tổng cộng tiền vật tư, phụ tùng</th>
   <th></th>
@@ -158,13 +164,13 @@ const renderTemplate = async (invoice) => {
             <th colspan="10">Phần sửa chữa chung</th>
           </tr>
         ${repairsGeneral
-      .map((item, index) => {
-        const moneyProduct = item?.quantity * item?.product?.priceUnit;
-        const moneyPay =
-          moneyProduct +
-          moneyProduct * (item?.product?.tax / 100) +
-          moneyProduct * (item?.product?.ck / 100);
-        const tableItemsData = `<tr>
+          .map((item, index) => {
+            const moneyProduct = item?.quantity * item?.product?.priceUnit;
+            const moneyPay =
+              moneyProduct +
+              moneyProduct * (item?.product?.tax / 100) +
+              moneyProduct * (item?.product?.ck / 100);
+            const tableItemsData = `<tr>
           <th class="font-light border border-slate-600">${index}</th>
           <th class="font-light border border-slate-600">${item?.product?.code}</th>
           <th class="font-light border border-slate-600">
@@ -178,9 +184,9 @@ const renderTemplate = async (invoice) => {
           <th class="font-light border border-slate-600">${moneyProduct.toLocaleString('it-IT')}</th>
           <th class="font-light border border-slate-600">${moneyPay.toLocaleString('it-IT')}</th>
         </tr>`;
-        return tableItemsData;
-      })
-      .join(' ')}
+            return tableItemsData;
+          })
+          .join(' ')}
           
           <tr>
             <th colspan="3">Tổng cộng tiền công</th>
